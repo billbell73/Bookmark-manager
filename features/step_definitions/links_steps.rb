@@ -17,3 +17,11 @@
 # 	puts page.body.inspect
 # 	page.should have_content(content)
 # end
+
+Given(/^the following links are available:$/) do |uri|
+  # table is a Cucumber::Ast::Table
+  uri.hashes.each do |webaddress|
+  	puts "webaddress: #{webaddress}"
+  	Linkdb.create(webaddress)
+  end
+end

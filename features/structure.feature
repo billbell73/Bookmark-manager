@@ -10,8 +10,8 @@ Feature: Page structure
 		Then I should see "Bookmark Manager" 
 
 	Scenario: The add link button
-		Then I should see "Add link" within "header"
+		Then I should see "Add link"
 
-	Scenario: Sign up and Sign in
-		Then I should see "Sign Up" within "header"
+	Scenario: Sign up
+		Then I should see "Sign Up" 
 

@@ -7,8 +7,11 @@ require File.join(File.dirname(__FILE__), '..', '..', 'lib/bookmarks_manager.rb'
 require 'capybara'
 require 'capybara/cucumber'
 require 'rspec'
+require 'database_cleaner'
+require 'database_cleaner/cucumber'
 
 Capybara.app = BookmarksManager
+DatabaseCleaner.strategy = :truncation
 
 class BookmarksManagerWorld
   include Capybara::DSL
@@ -18,4 +21,12 @@ end
 
 World do
   BookmarksManagerWorld.new
+end
+
+Before do
+  DatabaseCleaner.start
+end
+
+After do |scenario|
+  DatabaseCleaner.clean
 end

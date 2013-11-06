@@ -4,8 +4,10 @@ As a person who loves surfing the web
 I want to view the links I saved before
 
 Scenario: Viewing a link
-	Given I am on the homepage
-	And I have save the following links:
-		|name      |  uri								|
+	
+	* the following links are available:
+		|title      |  url								|
 		|Superpage | http://example.com |
-	Then 
+	* I am on the homepage
+	#And show me the page
+	Then I should see "Superpage"
