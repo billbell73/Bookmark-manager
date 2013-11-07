@@ -8,12 +8,17 @@
 			<nav>
 				<a href="/add_link">Add link</a>
 					<ul>
-						<li><a href="">Sign Up</a></li>
+						<li><a href="/sign_up">Sign Up</a></li>
 						<li><a href="/sign_in">Sign In</a></li>
 					</ul>
 			</nav>
 		</header>
-   		<%= yield %>
+		<div>
+			<% if current_user %>
+	    	Welcome, <%= current_user.email %>!
+	  	<% end %>
+	   	<%= yield %>
+   </div>
 		<footer>
 		</footer>
 	</body>

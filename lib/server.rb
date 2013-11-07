@@ -6,6 +6,9 @@ DataMapper.setup(:default, "postgres://localhost/bookmark_manager_#{env}")
 
 require_relative 'linkdb' # this needs to be done after datamapper is initialised
 require_relative 'tag'
+require_relative 'user'
+
+
 
 # After declaring your models, you should finalise them
 DataMapper.finalize

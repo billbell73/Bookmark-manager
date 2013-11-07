@@ -8,5 +8,4 @@ I want links to have tags, with one tag possible to apply to many links
 		|title      	|  url										| tags       |
 		|Snowboarding | http://snowboarding.com |	awesome		 |
 	When I am on the homepage
-	And show me the page
 	Then I should see "awesome"

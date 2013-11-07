@@ -18,16 +18,17 @@
 # 	page.should have_content(content)
 # end
 
-Given(/^the following links are available:$/) do |uri|
-  # table is a Cucumber::Ast::Table
-  uri.hashes.each do |webaddress|
-  	tag_object = Tag.create({"text" => webaddress["tags"]})
-  	webaddress.delete("tags")
-  	
-  	tag_object_array = [] << tag_object
-  	puts "tag_object_array: #{tag_object_array}"
-  	new_wba = webaddress.merge("tags" => tag_object_array)
-  	puts "new_wba: #{new_wba}"
-  	Linkdb.create(new_wba)
+
+Given(/^the following links are available:$/) do |links|
+  links.hashes.each do |link|
+  	Linkdb.create({
+  		title: link['title'], url: link['url'],
+  		tags: [Tag.create({text: link['tags']})]
+  		})
   end
+end
+
+Then(/^there should be an entry for "(.*?)" in the database$/) do |email_address|
+  expect(User.last.email).to eq email_address
+  # expect(User.get(email: email_address).email).to eq email_address
 end
