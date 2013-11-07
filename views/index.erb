@@ -4,6 +4,9 @@
 	<article>
 
 			<%= link.title  %>
+			<% link.tags.each do |tag| %>
+					<%=	tag.text %>
+			  <% end %>
 
 	</article>
 

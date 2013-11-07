@@ -22,6 +22,23 @@ class BookmarksManager < Sinatra::Base
   	"Welcome"
   end
 
+  get '/add_link' do
+    erb :add_link
+  end
+
+  post '/add_link' do
+    #"Wikipedia"
+    url = params["url"]
+    title = params["title"]
+    tag = params["tag"]
+    p "url: #{url}, title: #{title}, tag: #{tag}"
+    tag_object = Tag.create({:text => tag})
+    p "tag_object text: #{tag_object.text}"
+    tag_object_array = [] << tag_object
+    Linkdb.create({"url" => url, "title" => title, "tags" => tag_object_array})
+    redirect to ('/')
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end

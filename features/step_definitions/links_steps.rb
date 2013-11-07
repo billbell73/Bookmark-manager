@@ -21,7 +21,13 @@
 Given(/^the following links are available:$/) do |uri|
   # table is a Cucumber::Ast::Table
   uri.hashes.each do |webaddress|
-  	puts "webaddress: #{webaddress}"
-  	Linkdb.create(webaddress)
+  	tag_object = Tag.create({"text" => webaddress["tags"]})
+  	webaddress.delete("tags")
+  	
+  	tag_object_array = [] << tag_object
+  	puts "tag_object_array: #{tag_object_array}"
+  	new_wba = webaddress.merge("tags" => tag_object_array)
+  	puts "new_wba: #{new_wba}"
+  	Linkdb.create(new_wba)
   end
 end
