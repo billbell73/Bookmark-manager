@@ -32,3 +32,7 @@ Then(/^there should be an entry for "(.*?)" in the database$/) do |email_address
   expect(User.last.email).to eq email_address
   # expect(User.get(email: email_address).email).to eq email_address
 end
+
+Given(/^there is a user "(.*?)" with password "(.*?)"$/) do |email_address, password|
+  User.create({:email => email_address, :password => password, :password_confirmation => password})
+end

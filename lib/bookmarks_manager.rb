@@ -1,5 +1,7 @@
 require 'sinatra'
 require 'sinatra/base'
+require 'rack-flash'
+
 require_relative 'server'
 
 
@@ -10,13 +12,19 @@ class BookmarksManager < Sinatra::Base
   enable :sessions
   set :session_secret, 'super secret'
 
+  use Rack::Flash
+
   get '/' do
     #Linkdb.create({"title" => "Makers Academy", "url" => "blah"})
     # Linkdb.create({"title" => "Superpage", "url" => "blah"})
   	# @links =[Link.new('A new page I found', 'Page for saying goodbye', 'http://bye.com'), Link.new('Another page', 'Page for saying hi', 'http://hi.com')]
     @links = Linkdb.all
-    @what = session[:user_id]
     erb :index
+  end
+
+  post '/' do
+    session[:user_id] = nil
+    redirect to ('/')
   end
 
   get '/sign_in' do
@@ -24,8 +32,15 @@ class BookmarksManager < Sinatra::Base
   end
 
   post '/sign_in' do
-  	# @details = params[]
-  	"Welcome"
+  	email, password = params[:email], params[:password]
+    user = User.authenticate(email, password)
+    if user
+      session[:user_id] = user.id
+      redirect to('/')
+    else
+      flash[:errors] = ["Your email or password is incorrect. Please try again"]
+      erb :sign_in
+    end
   end
 
   get '/add_link' do
@@ -43,7 +58,6 @@ class BookmarksManager < Sinatra::Base
   end
 
   get '/sign_up' do
-
     erb :sign_up
   end
 
@@ -52,8 +66,14 @@ class BookmarksManager < Sinatra::Base
     password = params["password"]
     confirm_password = params["confirm_password"]
     user = User.create({:email => email, :password => password, :password_confirmation => confirm_password})
-    session[:user_id] = user.id
-    redirect to('/')
+    if user.save
+      session[:user_id] = user.id
+      redirect to('/')
+    else
+      flash.now[:errors] = user.errors.full_messages
+      # flash[:notice] = "Sorry, password and password confirmation did not match"
+      erb :sign_up
+    end
   end
 
   helpers do
